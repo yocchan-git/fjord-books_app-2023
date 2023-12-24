@@ -16,3 +16,4 @@ ja:
   index: '一覧に戻る'
   edit: '本を修正する'
   destroy: '本を削除する'
+  title: '本アプリ'

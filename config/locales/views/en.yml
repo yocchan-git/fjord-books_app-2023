@@ -16,3 +16,4 @@ en:
   index: 'Back to books'
   edit: 'Edit this book'
   destroy: 'Destroy this book'
+  title: 'BooksApp'
