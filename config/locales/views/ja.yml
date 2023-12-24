@@ -1,0 +1,18 @@
+ja:
+  books:
+    book:
+        title: 'タイトル'
+        memo: 'メモ'
+        author: '著者'
+        picture: '写真'
+    index:
+      title: '本一覧'
+    edit:
+      title: '本の修正'
+    new:
+      title: '本の追加'
+  new: '本を追加する'
+  show: '詳細を見る'
+  index: '一覧に戻る'
+  edit: '本を修正する'
+  destroy: '本を削除する'

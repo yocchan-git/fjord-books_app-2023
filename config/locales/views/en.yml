@@ -1,0 +1,18 @@
+en:
+  books:
+    book:
+        title: 'Title'
+        memo: 'Memo'
+        author: 'Author'
+        picture: 'Picture'
+    index:
+      title: 'Books'
+    edit:
+      title: 'Editing book'
+    new:
+      title: 'New Book'
+  new: 'New Book'
+  show: 'Show this book'
+  index: 'Back to books'
+  edit: 'Edit this book'
+  destroy: 'Destroy this book'
