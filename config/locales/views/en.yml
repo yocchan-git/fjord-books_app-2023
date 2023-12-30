@@ -1,0 +1,20 @@
+en:
+  title: 'BooksApp'
+  common:
+    new: 'New'
+    show: 'Show this'
+    index: 'Back to'
+    edit: 'Edit this'
+    destroy: 'Destroy this'
+  books:
+    book:
+        title: 'Title'
+        memo: 'Memo'
+        author: 'Author'
+        picture: 'Picture'
+    index:
+      title: 'Books'
+    edit:
+      title: 'Editing book'
+    new:
+      title: 'New Book'
