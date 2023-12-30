@@ -1,4 +1,11 @@
 en:
+  title: 'BooksApp'
+  common:
+    new: 'New'
+    show: 'Show this'
+    index: 'Back to'
+    edit: 'Edit this'
+    destroy: 'Destroy this'
   books:
     book:
         title: 'Title'
@@ -11,9 +18,3 @@ en:
       title: 'Editing book'
     new:
       title: 'New Book'
-  new: 'New Book'
-  show: 'Show this book'
-  index: 'Back to books'
-  edit: 'Edit this book'
-  destroy: 'Destroy this book'
-  title: 'BooksApp'

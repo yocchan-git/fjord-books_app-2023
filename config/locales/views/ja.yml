@@ -1,4 +1,11 @@
 ja:
+  title: '本アプリ'
+  common:
+    new: '追加する'
+    show: '詳細を見る'
+    index: '一覧に戻る'
+    edit: '修正する'
+    destroy: '削除する'
   books:
     book:
         title: 'タイトル'
@@ -11,9 +18,3 @@ ja:
       title: '本の修正'
     new:
       title: '本の追加'
-  new: '本を追加する'
-  show: '詳細を見る'
-  index: '一覧に戻る'
-  edit: '本を修正する'
-  destroy: '本を削除する'
-  title: '本アプリ'
