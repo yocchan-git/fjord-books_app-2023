@@ -20,20 +20,33 @@ class ReportsController < ApplicationController
 
   def create
     @report = current_user.reports.new(report_params)
+    mentioned_reports = create_mention(@report)
 
-    if @report.save
-      redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
-    else
-      render :new, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      @report.save!
+      mentioned_reports.each do |mentioned_report|
+        MentionReport.create!(mentioning: @report, mentioned: mentioned_report)
+      end
     end
+
+    redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
+  rescue ActiveRecord::RecordInvalid
+    render :new, status: :unprocessable_entity
   end
 
   def update
-    if @report.update(report_params)
-      redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
-    else
-      render :edit, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      @report.update!(report_params)
+      @report.mentionings.each(&:destroy!)
+      mentioned_reports = create_mention(@report)
+      mentioned_reports.each do |mentioned_report|
+        MentionReport.create!(mentioning: @report, mentioned: mentioned_report)
+      end
     end
+
+    redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
+  rescue ActiveRecord::RecordInvalid
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy
@@ -43,6 +56,12 @@ class ReportsController < ApplicationController
   end
 
   private
+
+  def create_mention(report)
+    report_content = report.content
+    report_ids = report_content.scan(/http:\/\/localhost:3000\/reports\/(\d+)/).flatten
+    Report.where(id: report_ids)
+  end
 
   def set_report
     @report = current_user.reports.find(params[:id])
