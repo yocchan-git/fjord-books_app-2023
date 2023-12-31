@@ -59,7 +59,7 @@ class ReportsController < ApplicationController
 
   def create_mention(report)
     report_content = report.content
-    report_ids = report_content.scan(/http:\/\/localhost:3000\/reports\/(\d+)/).flatten
+    report_ids = report_content.scan(%r{http://localhost:3000/reports/(\d+)}).flatten
     Report.where(id: report_ids)
   end
 
