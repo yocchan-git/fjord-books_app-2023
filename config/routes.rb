@@ -4,9 +4,8 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :books
-
-  get 'users', to: 'users#index', as: 'users'
-  get 'users/:id', to: 'users#show', as: 'user'
+  resources :users, only: [:index, :show]
+  root 'books#index'
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
