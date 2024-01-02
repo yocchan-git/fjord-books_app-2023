@@ -11,6 +11,25 @@
   </head>
 
   <body class="<%= params[:action] %>">
+    <header>
+      <ul>
+        <% if user_signed_in? %>
+          <li><%= link_to t('views.common.title_index', name: i18n_pluralize(Book.model_name.human)), books_path %></li>
+          <li><%= link_to t('views.common.title_index', name: i18n_pluralize(User.model_name.human)), users_path %></li>
+          <li><%= link_to t('views.common.log_out'), destroy_user_session_path, data: { turbo_method: :delete } %></li>
+        <% else %>
+          <li><%= link_to t('views.common.sign_up'), new_user_registration_path %></li>
+          <li><%= link_to t('views.common.log_in'), new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </header>
+    <% if notice %>
+      <p style="color: green"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p style="color: red"><%= alert %></p>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
