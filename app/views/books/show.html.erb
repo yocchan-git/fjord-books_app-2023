@@ -6,7 +6,7 @@
 
 <div class="show-item">
   <h2><%= Book.human_attribute_name(:comments) %></h2>
-  <% @book.comments.includes(:user).order(created_at: "DESC").each do |comment| %>
+  <% @book.comments.includes(:user).order(created_at: :desc).each do |comment| %>
     <%= render "share/comment", {commentable: @book, comment:} %>
   <% end %>
 </div>
