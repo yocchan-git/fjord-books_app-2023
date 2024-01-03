@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :set_report, only: %i[show edit]
-  before_action :corrent_user, only: %i[update destroy]
+  before_action :set_report, only: :show
+  before_action :set_current_user_report, only: %i[edit update destroy]
 
   def index
     @reports = Report.order(:id).page(params[:page])
@@ -26,12 +26,15 @@ class ReportsController < ApplicationController
   def edit; end
 
   def update
-    @report.update(report_params)
-    redirect_to report_path(@report), notice: t('controllers.common.notice_update', name: Report.model_name.human)
+    if @report.update(report_params)
+      redirect_to report_path(@report), notice: t('controllers.common.notice_update', name: Report.model_name.human)
+    else
+      render 'edit', status: :unprocessable_entity
+    end
   end
 
   def destroy
-    @report.destroy
+    @report.destroy!
     redirect_to reports_path, notice: t('controllers.common.notice_destroy', name: Report.model_name.human)
   end
 
@@ -41,12 +44,11 @@ class ReportsController < ApplicationController
     @report = Report.find(params[:id])
   end
 
-  def report_params
-    params.require(:report).permit(:title, :content)
+  def set_current_user_report
+    @report = current_user.reports.find(params[:id])
   end
 
-  def corrent_user
-    @report = current_user.reports.find_by(id: params[:id])
-    redirect_to root_url, status: :see_other if @report.nil?
+  def report_params
+    params.require(:report).permit(:title, :content)
   end
 end
