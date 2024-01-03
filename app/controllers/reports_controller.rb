@@ -19,7 +19,7 @@ class ReportsController < ApplicationController
     if @report.save
       redirect_to reports_path, notice: t('controllers.common.notice_create', name: Report.model_name.human)
     else
-      redirect_to new_report_path, status: :unprocessable_entity
+      render 'new', status: :unprocessable_entity
     end
   end
 
