@@ -5,10 +5,10 @@ class Comment < ApplicationRecord
   belongs_to :user
 
   def create_user_name_or_email
-    unless user.name.empty?
-      user.name
-    else
+    if user.name.empty?
       user.email
+    else
+      user.name
     end
   end
 end
