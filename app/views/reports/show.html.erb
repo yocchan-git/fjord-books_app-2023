@@ -1,18 +1,18 @@
 <h1><%= t('views.common.title_show', name: Report.model_name.human) %></h1>
 
 <div class="show-item">
-  <%= render @report %>
+  <%= render partial: 'reports/report', locals: {report: @report} %>
 </div>
 
 <div class="show-item">
   <h2><%= Report.human_attribute_name(:comments) %></h2>
   <% @report.comments.includes(:user).order(created_at: :desc).each do |comment| %>
-    <%= render "share/comment", {commentable: @report, comment:} %>
+    <%= render "share/comment", comment: %>
   <% end %>
 </div>
 
 <div class="show-item">
-  <%= render "share/comment_form", {commentable: @report, commentable_type_name: 'report'} %>
+  <%= render "share/comment_form", commentable: @report %>
 </div>
 
 <nav class="page-nav">

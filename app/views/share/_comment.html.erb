@@ -1,17 +1,12 @@
 <div class="show-item">
   <p><%= comment.content %></p>
   <span>
-    <% unless comment.user.name.empty? %>
-      <%= comment.user.name %>
-    <% else %>
-      <%= comment.user.email %>
-    <% end %>
-
-    | <%= comment.created_at.strftime('%Y/%m/%d') %>
+    <%= comment.create_user_name_or_email %> | 
+    <%= l comment.created_at, format: :long %>
   </span>
 
   <% if comment.user == current_user %>
-    <%= form_with(url: "#{commentable.id}/comments", method: :delete) do |form| %>
+    <%= form_with(model: comment, method: :delete) do |form| %>
       <%= form.hidden_field :comment_id, value: comment.id %>
       <div class="actions">
         <%= form.submit t('views.common.destroy', name: Comment.model_name.human.downcase) %>
