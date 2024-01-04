@@ -7,10 +7,6 @@ class Comment < ApplicationRecord
   validates :content, presence: true, length: { maximum: 400 }
 
   def create_user_name_or_email
-    if user.name.empty?
-      user.email
-    else
-      user.name
-    end
+    user.name.presence || user.email
   end
 end
