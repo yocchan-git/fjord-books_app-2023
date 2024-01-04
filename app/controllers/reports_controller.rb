@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :set_report, only: :show
   before_action :set_current_user_report, only: %i[edit update destroy]
 
   def index
     @reports = Report.order(:id).page(params[:page])
   end
 
-  def show; end
+  def show
+    @report = Report.find(params[:id])
+  end
 
   def new
     @report = Report.new
@@ -39,10 +40,6 @@ class ReportsController < ApplicationController
   end
 
   private
-
-  def set_report
-    @report = Report.find(params[:id])
-  end
 
   def set_current_user_report
     @report = current_user.reports.find(params[:id])
