@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
 
   def create
     @report = current_user.reports.new(report_params)
-    mentioned_reports = create_mention(@report)
+    mentioned_reports = @report.search_mention_reports
 
     ActiveRecord::Base.transaction do
       @report.save!
@@ -38,7 +38,7 @@ class ReportsController < ApplicationController
     ActiveRecord::Base.transaction do
       @report.update!(report_params)
       @report.mentionings.each(&:destroy!)
-      mentioned_reports = create_mention(@report)
+      mentioned_reports = @report.search_mention_reports
       mentioned_reports.each do |mentioned_report|
         MentionReport.create!(mentioning: @report, mentioned: mentioned_report)
       end
@@ -56,12 +56,6 @@ class ReportsController < ApplicationController
   end
 
   private
-
-  def create_mention(report)
-    report_content = report.content
-    report_ids = report_content.scan(%r{http://localhost:3000/reports/(\d+)}).flatten
-    Report.where(id: report_ids)
-  end
 
   def set_report
     @report = current_user.reports.find(params[:id])

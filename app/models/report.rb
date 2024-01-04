@@ -18,4 +18,9 @@ class Report < ApplicationRecord
   def created_on
     created_at.to_date
   end
+
+  def search_mention_reports
+    report_ids = content.scan(%r{http://localhost:3000/reports/(\d+)}).flatten
+    Report.where(id: report_ids)
+  end
 end
