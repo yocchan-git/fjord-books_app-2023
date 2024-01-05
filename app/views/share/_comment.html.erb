@@ -1,0 +1,15 @@
+<div class="show-item">
+  <p><%= comment.content %></p>
+  <span>
+    <%= comment.user.name_or_email %> |
+    <%= l comment.created_at, format: :long %>
+  </span>
+
+  <% if comment.user == current_user %>
+    <%= form_with(model: comment, method: :delete) do |form| %>
+      <div class="actions">
+        <%= form.submit t('views.common.destroy', name: Comment.model_name.human.downcase) %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

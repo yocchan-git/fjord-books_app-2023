@@ -1,7 +1,18 @@
 <h1><%= t('views.common.title_show', name: Book.model_name.human) %></h1>
 
 <div class="show-item">
-  <%= render @book %>
+  <%= render 'books/book', book: @book %>
+</div>
+
+<div class="show-item">
+  <h2><%= Book.human_attribute_name(:comments) %></h2>
+  <% @book.comments.includes(:user).order(created_at: :desc).each do |comment| %>
+    <%= render "share/comment", comment: %>
+  <% end %>
+</div>
+
+<div class="show-item">
+  <%= render "share/comment_form", commentable: @book %>
 </div>
 
 <nav class="page-nav">
