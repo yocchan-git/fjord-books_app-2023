@@ -1,13 +1,12 @@
 <div class="show-item">
   <p><%= comment.content %></p>
   <span>
-    <%= comment.create_user_name_or_email %> |
+    <%= comment.user.name_or_email %> |
     <%= l comment.created_at, format: :long %>
   </span>
 
   <% if comment.user == current_user %>
     <%= form_with(model: comment, method: :delete) do |form| %>
-      <%= form.hidden_field :comment_id, value: comment.id %>
       <div class="actions">
         <%= form.submit t('views.common.destroy', name: Comment.model_name.human.downcase) %>
       </div>
