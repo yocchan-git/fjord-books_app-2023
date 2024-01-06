@@ -19,8 +19,17 @@ class Report < ApplicationRecord
     created_at.to_date
   end
 
-  def search_mention_reports
+  def mentioned_reports_in_content
     report_ids = content.scan(%r{http://localhost:3000/reports/(\d+)}).flatten
     Report.where(id: report_ids)
+  end
+
+  def update_with_mentions!(params)
+    update!(params)
+    mentionings.each(&:destroy!)
+
+    mentioned_reports_in_content.each do |mentioned_report|
+      MentionReport.create!(mentioning: self, mentioned: mentioned_report)
+    end
   end
 end
