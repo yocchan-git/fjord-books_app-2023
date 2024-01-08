@@ -3,6 +3,10 @@
 class Report < ApplicationRecord
   belongs_to :user
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :mentionings, foreign_key: :mentioning_id, class_name: 'MentionReport', dependent: :destroy, inverse_of: :mentioning
+  has_many :mentioneds, foreign_key: :mentioned_id, class_name: 'MentionReport', dependent: :destroy, inverse_of: :mentioned
+  has_many :mentioning_reports, through: :mentionings, source: :mentioned
+  has_many :mentioned_reports, through: :mentioneds, source: :mentioning
 
   validates :title, presence: true
   validates :content, presence: true
@@ -13,5 +17,20 @@ class Report < ApplicationRecord
 
   def created_on
     created_at.to_date
+  end
+
+  def mentioned_reports_in_content
+    report_ids = content.scan(%r{http://localhost:3000/reports/(\d+)}).flatten
+    Report.where(id: report_ids)
+  end
+
+  def save_with_mentions!(params)
+    assign_attributes(params)
+    save!
+    mentionings.each(&:destroy!)
+
+    mentioned_reports_in_content.each do |mentioned_report|
+      MentionReport.create!(mentioning: self, mentioned: mentioned_report)
+    end
   end
 end
