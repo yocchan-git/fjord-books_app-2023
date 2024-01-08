@@ -24,8 +24,9 @@ class Report < ApplicationRecord
     Report.where(id: report_ids)
   end
 
-  def update_with_mentions!(params)
-    update!(params)
+  def save_with_mentions!(params)
+    assign_attributes(params)
+    save!
     mentionings.each(&:destroy!)
 
     mentioned_reports_in_content.each do |mentioned_report|
