@@ -20,13 +20,9 @@ class ReportsController < ApplicationController
 
   def create
     @report = current_user.reports.new(report_params)
-    mentioned_reports = @report.mentioned_reports_in_content
 
     ActiveRecord::Base.transaction do
-      @report.save!
-      mentioned_reports.each do |mentioned_report|
-        MentionReport.create!(mentioning: @report, mentioned: mentioned_report)
-      end
+      @report.save_with_mentions!(report_params)
     end
 
     redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
@@ -36,7 +32,7 @@ class ReportsController < ApplicationController
 
   def update
     ActiveRecord::Base.transaction do
-      @report.update_with_mentions!(report_params)
+      @report.save_with_mentions!(report_params)
     end
 
     redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
