@@ -3,7 +3,6 @@
 require 'test_helper'
 
 class ReportTest < ActiveSupport::TestCase
-
   def setup
     @yocchan = create(:user)
     @takeru = create(:user)
