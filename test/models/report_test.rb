@@ -3,12 +3,11 @@
 require 'test_helper'
 
 class ReportTest < ActiveSupport::TestCase
-  FIRST_REPORT = 0
 
   def setup
-    @yocchan = create(:yocchan)
-    @takeru = create(:takeru)
-    @report = Report.create(user: @yocchan, title: 'よっちゃんの記事', content: 'よっちゃんの記事だよ', created_at: 'Wed, 03 Jan 2024 20:00:00.000000000 JST +09:00')
+    @yocchan = create(:user)
+    @takeru = create(:user)
+    @report = create(:report, user: @yocchan)
   end
 
   test '編集できるユーザの場合' do
@@ -20,12 +19,12 @@ class ReportTest < ActiveSupport::TestCase
   end
 
   test '時間を表示する' do
-    assert_equal 'Wed, 03 Jan 2024'.to_date, @report.created_on
+    assert_equal Time.current.to_date, @report.created_on
   end
 
   test 'メンションする日報を取得する' do
-    include_url_report = Report.new(user: @takeru, title: 'URLを含む日報', content: "http://localhost:3000/reports/#{@report.id}, よっちゃんの記事")
-    include_url_report.save
-    assert_equal @report, include_url_report.mentioning_reports[FIRST_REPORT]
+    other_report = create(:report, user: @takeru, content: "http://localhost:3000/reports/#{@report.id}, よっちゃんの記事")
+    other_report.save!
+    assert_equal @report, other_report.mentioning_reports.first
   end
 end
