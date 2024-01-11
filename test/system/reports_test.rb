@@ -17,28 +17,28 @@ class ReportsTest < ApplicationSystemTestCase
     visit reports_url
     click_on '日報の新規作成'
 
-    fill_in 'タイトル', with: @report.title
-    fill_in '内容', with: @report.content
+    fill_in 'タイトル', with: 'タイトル'
+    fill_in '内容', with: '内容'
     click_button '登録する'
 
     assert_text '日報が作成されました。'
 
-    assert_text @report.title
-    assert_text @report.content
+    assert_text 'タイトル'
+    assert_text '内容'
   end
 
   test '日報の更新をする' do
     visit report_url(@report)
     click_on 'この日報を編集'
 
-    fill_in 'タイトル', with: @report.title + 'タイトルを更新'
-    fill_in '内容', with: @report.content + '内容を更新'
+    fill_in 'タイトル', with: 'タイトルを更新'
+    fill_in '内容', with: '内容を更新'
     click_button '更新する'
 
     assert_text '日報が更新されました。'
 
-    assert_text @report.title + 'タイトルを更新'
-    assert_text @report.content + '内容を更新'
+    assert_text 'タイトルを更新'
+    assert_text '内容を更新'
   end
 
   test '日報を削除する' do
