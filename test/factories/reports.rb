@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :report do
-    title { '日報のタイトル' }
-    content { '日報の内容' }
+    title { 'チェリー本３章まで読んだよ' }
+    content { 'Rubyの基礎とテストについて学んだ!まだまだ先は長そう...' }
     association :user
   end
 end
