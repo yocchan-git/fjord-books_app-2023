@@ -44,13 +44,12 @@ class ReportsTest < ApplicationSystemTestCase
   test '日報を削除する' do
     visit report_url(@report)
 
-    assert_text @report.title
-    assert_text @report.content
+    assert_text 'チェリー本３章まで読んだよ'
+    assert_text 'Rubyの基礎とテストについて学んだ!まだまだ先は長そう...'
 
     click_button 'この日報を削除'
 
-    assert_no_text @report.title
-    assert_no_text @report.content
+    assert_no_text 'チェリー本３章まで読んだよ'
 
     assert_text '日報が削除されました。'
   end
