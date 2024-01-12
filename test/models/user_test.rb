@@ -9,7 +9,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test '名前があるユーザは名前を返す' do
-    takeru = build(:user, name: 'たける')
+    takeru = build(:user, email: 'takeru@example.com', name: 'たける')
     assert_equal 'たける', takeru.name_or_email
   end
 end

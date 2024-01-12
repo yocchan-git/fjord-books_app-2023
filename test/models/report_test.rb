@@ -18,12 +18,12 @@ class ReportTest < ActiveSupport::TestCase
   end
 
   test '時間を表示する' do
-    assert_equal Time.current.to_date, @report.created_on
+    @report.created_at = '2024-01-12 09:30'.in_time_zone
+    assert_equal '2024-01-12'.to_date, @report.created_on
   end
 
   test 'メンションする日報を取得する' do
     other_report = create(:report, user: @takeru, content: "http://localhost:3000/reports/#{@report.id}, よっちゃんの記事")
-    other_report.save!
-    assert_equal @report, other_report.mentioning_reports.first
+    assert_equal [@report], other_report.mentioning_reports
   end
 end
